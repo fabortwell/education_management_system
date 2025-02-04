@@ -1,5 +1,144 @@
-<% if current_user.student? %>
-  <%= render 'student' %>
-<% elsif current_user.super_admin? %>
-  <%= render 'super_admin' %>
-<% end %>
+<!-- Dashboard Layout -->
+<div class="min-h-screen bg-gray-100">
+  <!-- Sidebar -->
+  <aside class="fixed inset-y-0 left-0 w-64 bg-gray-900 text-white transform transition-transform duration-300 ease-in-out">
+    <div class="p-6">
+      <h2 class="text-2xl font-bold text-[hsl(0_83%_56.1%)]">EduManage</h2>
+    </div>
+    <nav class="mt-6">
+      <%= link_to dashboard_path, class: "flex items-center px-6 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition" do %>
+        <i class="fas fa-home mr-3"></i> Dashboard
+      <% end %>
+      <%= link_to courses_path, class: "flex items-center px-6 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition" do %>
+        <i class="fas fa-book-open mr-3"></i> Courses
+      <% end %>
+      <%= link_to announcements_path, class: "flex items-center px-6 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition" do %>
+        <i class="fas fa-bullhorn mr-3"></i> Announcements
+      <% end %>
+      <%= link_to financial_statements_path, class: "flex items-center px-6 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition" do %>
+        <i class="fas fa-chart-line mr-3"></i> Financials
+      <% end %>
+      <% if current_user.super_admin? %>
+        <%= link_to users_path, class: "flex items-center px-6 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition" do %>
+          <i class="fas fa-users-cog mr-3"></i> Manage Users
+        <% end %>
+      <% end %>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="ml-64 p-8">
+    <!-- Header -->
+    <header class="flex justify-between items-center mb-8">
+      <div>
+        <h1 class="text-2xl font-bold text-gray-900">
+          Welcome back, <%= current_user.email %>
+        </h1>
+        <p class="text-gray-600"><%= Time.now.strftime("%A, %B %d, %Y") %></p>
+      </div>
+      <div class="flex items-center">
+        <%= link_to "New Announcement", new_announcement_path, class: "bg-[hsl(0_83%_56.1%)] hover:bg-[hsl(0_83%_46%)] text-white px-4 py-2 rounded-lg mr-4" if current_user.super_admin? %>
+        <!-- Profile Dropdown -->
+        <div class="relative">
+          <button class="flex items-center text-gray-600 hover:text-gray-900">
+            <div class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center">
+              <i class="fas fa-user text-gray-500"></i>
+            </div>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Stats Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      <div class="bg-white p-6 rounded-xl shadow-sm">
+        <div class="flex justify-between items-center">
+          <div>
+            <p class="text-gray-500">Enrolled Courses</p>
+            <p class="text-3xl font-bold text-gray-900">4</p>
+          </div>
+          <div class="text-[hsl(0_83%_56.1%)] text-3xl">
+            <i class="fas fa-book"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white p-6 rounded-xl shadow-sm">
+        <div class="flex justify-between items-center">
+          <div>
+            <p class="text-gray-500">Pending Payments</p>
+            <p class="text-3xl font-bold text-gray-900">$450</p>
+          </div>
+          <div class="text-[hsl(0_83%_56.1%)] text-3xl">
+            <i class="fas fa-wallet"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white p-6 rounded-xl shadow-sm">
+        <div class="flex justify-between items-center">
+          <div>
+            <p class="text-gray-500">New Announcements</p>
+            <p class="text-3xl font-bold text-gray-900">2</p>
+          </div>
+          <div class="text-[hsl(0_83%_56.1%)] text-3xl">
+            <i class="fas fa-bell"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <!-- Recent Announcements -->
+      <div class="bg-white p-6 rounded-xl shadow-sm">
+        <div class="flex justify-between items-center mb-6">
+          <h3 class="text-xl font-semibold text-gray-900">Recent Announcements</h3>
+          <%= link_to "View All", announcements_path, class: "text-[hsl(0_83%_56.1%)] hover:text-[hsl(0_83%_46%)] text-sm" %>
+        </div>
+        <div class="space-y-4">
+          <% 3.times do %>
+            <div class="p-4 border-b border-gray-100 hover:bg-gray-50 transition">
+              <h4 class="font-semibold text-gray-900">Exam Schedule Update</h4>
+              <p class="text-gray-600 text-sm">Posted 2 hours ago</p>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Course Progress -->
+      <div class="bg-white p-6 rounded-xl shadow-sm">
+        <div class="flex justify-between items-center mb-6">
+          <h3 class="text-xl font-semibold text-gray-900">Course Progress</h3>
+          <%= link_to "View All", courses_path, class: "text-[hsl(0_83%_56.1%)] hover:text-[hsl(0_83%_46%)] text-sm" %>
+        </div>
+        <div class="space-y-4">
+          <% %w[Mathematics Physics Chemistry].each do |course| %>
+            <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+              <div>
+                <h4 class="font-semibold text-gray-900"><%= course %></h4>
+                <p class="text-gray-600 text-sm">Completed 75%</p>
+              </div>
+              <div class="w-20 h-2 bg-gray-200 rounded-full overflow-hidden">
+                <div class="h-full bg-[hsl(0_83%_56.1%)]" style="width: 75%"></div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <!-- Financial Overview (Admin Only) -->
+      <% if current_user.super_admin? %>
+        <div class="lg:col-span-2 bg-white p-6 rounded-xl shadow-sm">
+          <div class="flex justify-between items-center mb-6">
+            <h3 class="text-xl font-semibold text-gray-900">Financial Overview</h3>
+            <%= link_to "View Reports", financial_statements_path, class: "text-[hsl(0_83%_56.1%)] hover:text-[hsl(0_83%_46%)] text-sm" %>
+          </div>
+          <div class="h-64 bg-gray-50 rounded-lg flex items-center justify-center">
+            <p class="text-gray-500">Revenue Chart Placeholder</p>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </main>
+</div>
