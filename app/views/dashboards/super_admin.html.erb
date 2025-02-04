@@ -1,0 +1,20 @@
+<div class="container mx-auto px-4 py-8">
+  <h1 class="text-3xl font-bold mb-6">Admin Dashboard</h1>
+  
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="bg-white p-6 rounded-lg shadow">
+      <h2 class="text-xl font-semibold mb-4">Manage Users</h2>
+      <%= link_to 'View Users', users_path, class: "text-[hsl(0_83%_56.1%)] hover:underline" %>
+    </div>
+    
+    <div class="bg-white p-6 rounded-lg shadow">
+      <h2 class="text-xl font-semibold mb-4">Manage Courses</h2>
+      <%= link_to 'Create Course', new_course_path, class: "text-[hsl(0_83%_56.1%)] hover:underline" %>
+    </div>
+    
+    <div class="bg-white p-6 rounded-lg shadow">
+      <h2 class="text-xl font-semibold mb-4">Financial Controls</h2>
+      <%= link_to 'Manage Statements', financial_statements_path, class: "text-[hsl(0_83%_56.1%)] hover:underline" %>
+    </div>
+  </div>
+</div>

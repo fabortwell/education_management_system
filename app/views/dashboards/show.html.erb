@@ -1,0 +1,5 @@
+<% if current_user.student? %>
+  <%= render 'student' %>
+<% elsif current_user.super_admin? %>
+  <%= render 'super_admin' %>
+<% end %>
