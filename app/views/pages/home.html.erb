@@ -89,7 +89,6 @@
     </div>
   </section>
 
-  <!-- How It Works Section -->
 <!-- How It Works Section -->
 <section class="py-20 bg-gradient-to-b from-gray-50 to-white">
   <div class="container mx-auto px-6">
@@ -160,24 +159,138 @@
     </div>
   </div>
 </section>
+<!-- Testimonials Section -->
+<section class="py-20 bg-gray-50">
+  <div class="container mx-auto px-6">
+    <div class="text-center mb-16">
+      <h2 class="text-4xl font-bold text-gray-900 mb-4">
+        Trusted by 
+        <span class="text-[hsl(0_83%_56.1%)]">Educational Institutions</span>
+      </h2>
+    </div>
 
-<!-- Add to your CSS -->
-<style>
-  .animate-fade-in {
-    animation: fadeIn 0.8s ease-out forwards;
-    opacity: 0;
-  }
-  
-  @keyframes fadeIn {
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <!-- Testimonial 1 -->
+      <div class="relative group bg-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 h-full">
+        <div class="text-[hsl(0_83%_56.1%)] text-5xl mb-4">“</div>
+        <p class="text-gray-600 text-lg mb-6">
+          EduManage transformed how we handle student data. The platform is intuitive and has saved us countless hours.
+        </p>
+        <div class="flex items-center">
+          <div class="w-12 h-12 rounded-full bg-gray-200 mr-4"></div>
+          <div>
+            <h4 class="font-semibold text-gray-900">Sarah Johnson</h4>
+            <p class="text-gray-500">Principal, Green Valley High</p>
+          </div>
+        </div>
+      </div>
 
-  .animate-fade-in:nth-child(1) { animation-delay: 0.2s }
-  .animate-fade-in:nth-child(2) { animation-delay: 0.4s }
-  .animate-fade-in:nth-child(3) { animation-delay: 0.6s }
-</style>
+      <!-- Testimonial 2 (Middle Card) -->
+      <div class="relative group bg-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 h-[95%] self-end">
+        <div class="text-[hsl(0_83%_56.1%)] text-5xl mb-4">“</div>
+        <p class="text-gray-600 text-lg mb-6">
+          Financial tracking became seamless. Our administration efficiency increased by 60% in the first month.
+        </p>
+        <div class="flex items-center">
+          <div class="w-12 h-12 rounded-full bg-gray-200 mr-4"></div>
+          <div>
+            <h4 class="font-semibold text-gray-900">Michael Chen</h4>
+            <p class="text-gray-500">Finance Director, City College</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Testimonial 3 -->
+      <div class="relative group bg-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 h-full">
+        <div class="text-[hsl(0_83%_56.1%)] text-5xl mb-4">“</div>
+        <p class="text-gray-600 text-lg mb-6">
+          Best decision we made for our institution. The course management system is unparalleled.
+        </p>
+        <div class="flex items-center">
+          <div class="w-12 h-12 rounded-full bg-gray-200 mr-4"></div>
+          <div>
+            <h4 class="font-semibold text-gray-900">Emma Wilson</h4>
+            <p class="text-gray-500">Dean, Mountain View University</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Subscribe Section -->
+<section class="bg-[hsl(0_83%_56.1%)] py-20">
+  <div class="container mx-auto px-6 text-center">
+    <div class="max-w-2xl mx-auto">
+      <h2 class="text-4xl font-bold text-white mb-6">
+        Start Your Digital Transformation
+      </h2>
+      <p class="text-white/90 text-xl mb-8">
+        Get updates and educational resources delivered to your inbox
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <%= form_with url: "#", class: "w-full sm:w-96", local: true do |form| %>
+          <div class="flex gap-2 bg-white rounded-lg p-2">
+            <%= form.email_field :email, 
+                  class: "flex-1 rounded-lg px-6 py-4 border-0 focus:ring-0 text-gray-900",
+                  placeholder: "Enter your email" %>
+            <%= form.submit "Subscribe", 
+                  class: "bg-[hsl(0_83%_56.1%)] text-white px-8 py-4 rounded-lg font-semibold cursor-pointer hover:bg-[hsl(0_83%_46%)] transition" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-gray-900 text-gray-300 w-full">
+  <div class="mx-auto px-6 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-7xl mx-auto">
+      <!-- Column 1 -->
+      <div class="mb-8 md:mb-0">
+        <h3 class="text-[hsl(0_83%_56.1%)] text-xl font-bold mb-4">EduManage</h3>
+        <p class="text-sm">Empowering educational institutions through innovative solutions</p>
+      </div>
+
+      <!-- Column 2 -->
+      <div>
+        <h4 class="text-white font-semibold mb-4">Product</h4>
+        <ul class="space-y-2 text-sm">
+          <li><%= link_to "Features", "#", class: "hover:text-white transition" %></li>
+          <li><%= link_to "Security", "#", class: "hover:text-white transition" %></li>
+          <li><%= link_to "Pricing", "#", class: "hover:text-white transition" %></li>
+        </ul>
+      </div>
+
+      <!-- Column 3 -->
+      <div>
+        <h4 class="text-white font-semibold mb-4">Company</h4>
+        <ul class="space-y-2 text-sm">
+          <li><%= link_to "About", "#", class: "hover:text-white transition" %></li>
+          <li><%= link_to "Blog", "#", class: "hover:text-white transition" %></li>
+          <li><%= link_to "Careers", "#", class: "hover:text-white transition" %></li>
+        </ul>
+      </div>
+
+      <!-- Column 4 -->
+      <div>
+        <h4 class="text-white font-semibold mb-4">Legal</h4>
+        <ul class="space-y-2 text-sm">
+          <li><%= link_to "Privacy", "#", class: "hover:text-white transition" %></li>
+          <li><%= link_to "Terms", "#", class: "hover:text-white transition" %></li>
+          <li><%= link_to "Contact", "#", class: "hover:text-white transition" %></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Copyright -->
+    <div class="border-t border-gray-800 mt-12 pt-8 text-center text-sm max-w-7xl mx-auto">
+      <p>&copy; 2025 EduManage. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+
 
 </div>
