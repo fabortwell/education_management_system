@@ -1,57 +1,75 @@
 <!-- Dashboard Layout -->
-<div class="bg-gray-100 flex min-h-screen w-full overflow-hidden">
-  <!-- Sidebar - Fixed position at left edge -->
-  <aside class="w-84 bg-gray-900 text-white flex flex-col fixed inset-y-0 left-0 z-10">
-    <div class="p-6">
-      <h2 class="text-2xl font-bold text-[hsl(0_83%_56.1%)]">EduManage</h2>
+<div class="bg-gray-50 flex min-h-screen w-full overflow-hidden">
+  <!-- Enhanced Sidebar -->
+  <aside class="w-64 bg-gray-900 text-white flex flex-col fixed inset-y-0 left-0 z-10 border-r border-gray-800">
+    <div class="p-6 border-b border-gray-800">
+      <h2 class="text-2xl font-bold text-[hsl(0_83%_56.1%)] tracking-tight">EduManage</h2>
+      <p class="text-sm text-gray-400 mt-1">Welcome, <%= current_user.first_name %></p>
     </div>
     
     <!-- Navigation Menu -->
-    <nav class="flex-1 overflow-y-auto">
-      <%= link_to dashboard_path, class: "flex items-center px-6 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition" do %>
-        <i class="fas fa-home mr-3"></i> Dashboard
+    <nav class="flex-1 overflow-y-auto px-2 py-4 space-y-1">
+      <%= link_to dashboard_path, class: "flex items-center px-4 py-2.5 rounded-lg mx-2 text-gray-300 hover:bg-gray-800 transition-all #{'bg-gray-800 text-white' if current_page?(dashboard_path)}" do %>
+        <i class="fas fa-home w-5 mr-3 text-center"></i> Dashboard
       <% end %>
-      <%= link_to courses_path, class: "flex items-center px-6 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition" do %>
-        <i class="fas fa-book-open mr-3"></i> Courses
+      
+      <%= link_to courses_path, class: "flex items-center px-4 py-2.5 rounded-lg mx-2 text-gray-300 hover:bg-gray-800 transition-all #{'bg-gray-800 text-white' if current_page?(courses_path)}" do %>
+        <i class="fas fa-book-open w-5 mr-3 text-center"></i> Courses
       <% end %>
-      <%= link_to announcements_path, class: "flex items-center px-6 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition" do %>
-        <i class="fas fa-bullhorn mr-3"></i> Announcements
+      
+      <%= link_to announcements_path, class: "flex items-center px-4 py-2.5 rounded-lg mx-2 text-gray-300 hover:bg-gray-800 transition-all #{'bg-gray-800 text-white' if current_page?(announcements_path)}" do %>
+        <i class="fas fa-bullhorn w-5 mr-3 text-center"></i> Announcements
       <% end %>
-      <%= link_to financial_statements_path, class: "flex items-center px-6 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition" do %>
-        <i class="fas fa-chart-line mr-3"></i> Financials
+      
+      <%= link_to financial_statements_path, class: "flex items-center px-4 py-2.5 rounded-lg mx-2 text-gray-300 hover:bg-gray-800 transition-all #{'bg-gray-800 text-white' if current_page?(financial_statements_path)}" do %>
+        <i class="fas fa-chart-line w-5 mr-3 text-center"></i> Financials
       <% end %>
+      
       <% if current_user.super_admin? %>
-        <%= link_to users_path, class: "flex items-center px-6 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition" do %>
-          <i class="fas fa-users-cog mr-3"></i> Manage Users
+        <%= link_to users_path, class: "flex items-center px-4 py-2.5 rounded-lg mx-2 text-gray-300 hover:bg-gray-800 transition-all #{'bg-gray-800 text-white' if current_page?(users_path)}" do %>
+          <i class="fas fa-users-cog w-5 mr-3 text-center"></i> Manage Users
         <% end %>
       <% end %>
     </nav>
 
-    <!-- Logout Button -->
-    <div class="p-4 border-t border-gray-800">
+    <!-- Enhanced Logout Button -->
+    <div class="mt-auto p-4 border-t border-gray-800 bg-gray-900/95 backdrop-blur-sm">
       <%= button_to destroy_user_session_path, method: :delete, 
-                   class: "w-full flex items-center justify-center px-4 py-3 text-gray-300 hover:bg-[hsl(0_83%_56.1%)] hover:text-white rounded-lg transition" do %>
-        <i class="fas fa-sign-out-alt mr-2"></i> Logout
+                   class: "w-full flex items-center justify-center px-4 py-2.5 space-x-2 text-gray-300 hover:bg-[hsl(0_83%_56.1%)] hover:text-white rounded-lg transition-all hover:shadow-md" do %>
+        <i class="fas fa-sign-out-alt"></i>
+        <span>Logout</span>
       <% end %>
     </div>
   </aside>
 
   <!-- Main Content -->
-  <main class="flex-1 ml-64 p-8 bg-gray-100">
-    <!-- Header -->
-    <header class="flex justify-between items-center mb-8">
+  <main class="flex-1 ml-64 p-8 bg-gray-50">
+    <!-- Enhanced Header -->
+    <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8">
       <div>
-        <h1 class="text-2xl font-bold text-gray-900">
-          Welcome back, <%= current_user.email %>
+        <h1 class="text-2xl font-bold text-gray-900 tracking-tight">
+          <%= current_user.super_admin? ? "Admin Dashboard" : "Student Dashboard" %>
         </h1>
-        <p class="text-gray-600"><%= Time.now.strftime("%A, %B %d, %Y") %></p>
+        <p class="text-gray-600 mt-1">
+          <%= Time.now.strftime("%A, %B #{Time.now.day.ordinalize}") %>
+        </p>
       </div>
+      
+      <% if current_user.super_admin? %>
+        <div class="mt-4 sm:mt-0 flex space-x-3">
+          <%= link_to "New Announcement", new_announcement_path, class: "btn-primary" %>
+          <%= link_to "New Course", new_course_path, class: "btn-secondary" %>
+        </div>
+      <% end %>
     </header>
 
-        <% if current_user.student? %>
-          <%= render 'student_dashboard' %>
-        <% elsif current_user.super_admin? %>
-          <%= render 'admin_dashboard' %>
-        <% end %>
+    <!-- Content Section -->
+    <div class="space-y-8">
+      <% if current_user.student? %>
+        <%= render 'student_dashboard' %>
+      <% elsif current_user.super_admin? %>
+        <%= render 'admin_dashboard' %>
+      <% end %>
+    </div>
   </main>
 </div>

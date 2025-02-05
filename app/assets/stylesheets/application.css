@@ -5,3 +5,11 @@
   .nav-link.active:hover {
     background-color: hsl(0, 83%, 46%);
   }
+
+  .btn-primary {
+    @apply px-4 py-2.5 bg-[hsl(0_83%_56.1%)] text-white rounded-lg font-medium hover:bg-[hsl(0_83%_46%)] transition-all hover:shadow-md;
+  }
+
+  .btn-secondary {
+    @apply px-4 py-2.5 bg-white border border-[hsl(0_83%_56.1%)] text-[hsl(0_83%_56.1%)] rounded-lg font-medium hover:bg-[hsl(0_83%_56.1%)]/10 transition-all;
+  }
