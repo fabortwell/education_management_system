@@ -78,5 +78,4 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 Brian Sitati - [@itsme_brian](https://x.com/itsme_brian) - briansittt@gmail.com
 
-Project Link: [https://github.com/fabortwell/education_management_system](https://github.com/fabortwell/education_management_system)
-```
+```Project Link: [https://github.com/fabortwell/education_management_system](https://github.com/fabortwell/education_management_system)
