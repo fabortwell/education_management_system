@@ -1,11 +1,13 @@
 <!-- Dashboard Layout -->
-<div class="min-h-screen bg-gray-100">
-  <!-- Sidebar -->
-  <aside class="fixed inset-y-0 left-0 w-64 bg-gray-900 text-white transform transition-transform duration-300 ease-in-out">
+<div class="bg-gray-100 flex min-h-screen w-full overflow-hidden">
+  <!-- Sidebar - Fixed position at left edge -->
+  <aside class="w-84 bg-gray-900 text-white flex flex-col fixed inset-y-0 left-0 z-10">
     <div class="p-6">
       <h2 class="text-2xl font-bold text-[hsl(0_83%_56.1%)]">EduManage</h2>
     </div>
-    <nav class="mt-6">
+    
+    <!-- Navigation Menu -->
+    <nav class="flex-1 overflow-y-auto">
       <%= link_to dashboard_path, class: "flex items-center px-6 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition" do %>
         <i class="fas fa-home mr-3"></i> Dashboard
       <% end %>
@@ -24,10 +26,18 @@
         <% end %>
       <% end %>
     </nav>
+
+    <!-- Logout Button -->
+    <div class="p-4 border-t border-gray-800">
+      <%= button_to destroy_user_session_path, method: :delete, 
+                   class: "w-full flex items-center justify-center px-4 py-3 text-gray-300 hover:bg-[hsl(0_83%_56.1%)] hover:text-white rounded-lg transition" do %>
+        <i class="fas fa-sign-out-alt mr-2"></i> Logout
+      <% end %>
+    </div>
   </aside>
 
   <!-- Main Content -->
-  <main class="ml-64 p-8">
+  <main class="flex-1 ml-64 p-8 bg-gray-100">
     <!-- Header -->
     <header class="flex justify-between items-center mb-8">
       <div>
@@ -35,17 +45,6 @@
           Welcome back, <%= current_user.email %>
         </h1>
         <p class="text-gray-600"><%= Time.now.strftime("%A, %B %d, %Y") %></p>
-      </div>
-      <div class="flex items-center">
-        <%= link_to "New Announcement", new_announcement_path, class: "bg-[hsl(0_83%_56.1%)] hover:bg-[hsl(0_83%_46%)] text-white px-4 py-2 rounded-lg mr-4" if current_user.super_admin? %>
-        <!-- Profile Dropdown -->
-        <div class="relative">
-          <button class="flex items-center text-gray-600 hover:text-gray-900">
-            <div class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center">
-              <i class="fas fa-user text-gray-500"></i>
-            </div>
-          </button>
-        </div>
       </div>
     </header>
 

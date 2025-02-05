@@ -1,8 +1,15 @@
 class ApplicationController < ActionController::Base
-  allow_browser versions: :modern
   include Pundit::Authorization
 
-  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+  def after_sign_in_path_for(resource)
+    # Redirect to dashboard after successful login
+    dashboard_path
+  end
+
+  def after_sign_out_path_for(resource)
+    # Redirect to root path after logout
+    root_path
+  end
 
   private
 
