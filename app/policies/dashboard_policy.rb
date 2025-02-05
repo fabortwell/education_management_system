@@ -1,5 +1,5 @@
 class DashboardPolicy < ApplicationPolicy
   def show?
-    true # Accessible to all logged-in users
+    user.student? || user.super_admin?
   end
 end

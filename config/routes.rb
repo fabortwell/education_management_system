@@ -18,6 +18,7 @@ Rails.application.routes.draw do
 
 
 
+
   resources :courses, only: [ :index ]
   resource :dashboard, only: [ :show ]
   resources :users, only: [ :index, :edit, :update, :destroy ]
