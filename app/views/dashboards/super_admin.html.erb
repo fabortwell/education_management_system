@@ -1,20 +1,47 @@
-<div class="container mx-auto px-4 py-8">
-  <h1 class="text-3xl font-bold mb-6">Admin Dashboard</h1>
-  
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-    <div class="bg-white p-6 rounded-lg shadow">
-      <h2 class="text-xl font-semibold mb-4">Manage Users</h2>
-      <%= link_to 'View Users', users_path, class: "text-[hsl(0_83%_56.1%)] hover:underline" %>
+<div class="space-y-8">
+  <!-- Course Management -->
+  <div class="bg-white p-6 rounded-xl shadow-sm">
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-2xl font-semibold">Course Management</h2>
+      <%= link_to "New Course", new_course_path, class: "bg-[hsl(0_83%_56.1%)] text-white px-4 py-2 rounded-lg hover:bg-[hsl(0_83%_46%)]" %>
     </div>
     
-    <div class="bg-white p-6 rounded-lg shadow">
-      <h2 class="text-xl font-semibold mb-4">Manage Courses</h2>
-      <%= link_to 'Create Course', new_course_path, class: "text-[hsl(0_83%_56.1%)] hover:underline" %>
+    <div class="overflow-x-auto">
+      <table class="w-full">
+        <thead>
+          <tr class="text-left border-b-2 border-gray-200">
+            <th class="pb-3">Course</th>
+            <th class="pb-3">Enrolled</th>
+            <th class="pb-3">Status</th>
+            <th class="pb-3">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @courses.each do |course| %>
+            <tr class="border-b border-gray-100 hover:bg-gray-50">
+              <td class="py-4"><%= course.name %></td>
+              <td><%= course.enrollments_count %></td>
+              <td>
+                <span class="px-2 py-1 rounded-full text-sm <%= course.active? ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' %>">
+                  <%= course.status %>
+                </span>
+              </td>
+              <td>
+                <%= link_to "Edit", edit_course_path(course), class: "text-[hsl(0_83%_56.1%)] hover:text-[hsl(0_83%_46%)] mr-2" %>
+                <%= link_to "Delete", course_path(course), method: :delete, data: { confirm: 'Are you sure?' }, class: "text-red-600 hover:text-red-800" %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
     </div>
-    
-    <div class="bg-white p-6 rounded-lg shadow">
-      <h2 class="text-xl font-semibold mb-4">Financial Controls</h2>
-      <%= link_to 'Manage Statements', financial_statements_path, class: "text-[hsl(0_83%_56.1%)] hover:underline" %>
+  </div>
+
+  <!-- Financial Overview Chart -->
+  <div class="bg-white p-6 rounded-xl shadow-sm">
+    <h2 class="text-2xl font-semibold mb-6">Financial Overview</h2>
+    <div class="h-96">
+      <canvas id="financialChart" data-revenue="<%= @revenue_data.to_json %>"></canvas>
     </div>
   </div>
 </div>

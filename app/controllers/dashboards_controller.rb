@@ -2,13 +2,20 @@ class DashboardsController < ApplicationController
   before_action :authenticate_user!
 
   def show
-    authorize :dashboard
     if current_user.super_admin?
-      @courses = Course.all
-      @revenue_data = {
-        labels: [ "Jan", "Feb", "Mar", "Apr", "May", "Jun" ],
-        values: [ 65000, 79000, 82000, 73000, 91000, 99000 ]
-      }
+      redirect_to admin_dashboard_path
+    else
+      redirect_to student_dashboard_path
     end
+  end
+
+  def admin
+    authorize :dashboard, :super_admin?
+    # Admin-specific data fetching
+  end
+
+  def student
+    authorize :dashboard, :student?
+    # Student-specific data fetching
   end
 end
