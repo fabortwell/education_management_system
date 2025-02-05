@@ -1,3 +1,115 @@
-<div class="container mx-auto px-4 py-8">
-  <h1 class="text-3xl font-bold mb-6">Courses</h1>
+<!-- Courses Index View -->
+<div class="min-h-screen bg-gray-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Header Section -->
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8">
+      <div class="mb-4 sm:mb-0">
+        <h1 class="text-3xl font-bold text-gray-900">Course Catalog</h1>
+        <p class="mt-2 text-gray-600">Explore available courses and manage your enrollments</p>
+      </div>
+      <% if current_user.super_admin? %>
+        <%= link_to new_course_path, class: "btn-primary flex items-center" do %>
+          <i class="fas fa-plus-circle mr-2"></i> New Course
+        <% end %>
+      <% end %>
+    </div>
+
+    <!-- Search and Filters -->
+    <div class="mb-8 bg-white p-6 rounded-xl shadow-sm border border-gray-200/60">
+      <div class="flex flex-col sm:flex-row gap-4">
+        <div class="flex-1">
+          <input type="text" placeholder="Search courses..." class="w-full input-field">
+        </div>
+        <select class="input-field">
+          <option value="">All Departments</option>
+          <option>Computer Science</option>
+          <option>Mathematics</option>
+          <option>Engineering</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Course Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <% @courses.each do |course| %>
+        <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 border border-gray-200/60 hover:border-[hsl(0_83%_56.1%)]/20">
+          <div class="p-6">
+            <!-- Course Header -->
+            <div class="flex items-center justify-between mb-4">
+              <div class="flex items-center">
+                <div class="w-12 h-12 bg-[hsl(0_83%_56.1%)]/10 rounded-lg flex items-center justify-center mr-3">
+                  <i class="fas fa-book text-[hsl(0_83%_56.1%)] text-xl"></i>
+                </div>
+                <div>
+                  <h3 class="font-bold text-gray-900"><%= course.code %></h3>
+                  <p class="text-sm text-gray-600"><%= course.credits %> Credits</p>
+                </div>
+              </div>
+              <% if current_user.super_admin? %>
+                <div class="dropdown">
+                  <button class="text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-ellipsis-v"></i>
+                  </button>
+                  <!-- Dropdown menu here -->
+                </div>
+              <% end %>
+            </div>
+
+            <!-- Course Details -->
+            <h4 class="text-xl font-semibold text-gray-900 mb-2"><%= course.name %></h4>
+            <p class="text-gray-600 text-sm mb-4"><%= course.description.truncate(100) %></p>
+
+            <!-- Progress and Enrollment -->
+            <div class="space-y-3">
+              <% if current_user.student? %>
+                <div class="flex items-center justify-between text-sm">
+                  <span class="text-gray-600">Your Progress</span>
+                  <span class="font-medium text-[hsl(0_83%_56.1%)]"><%= course.student_progress(current_user) %>%</span>
+                </div>
+                <div class="h-2 bg-gray-200 rounded-full">
+                  <div class="h-full bg-[hsl(0_83%_56.1%)] rounded-full transition-all duration-500" 
+                       style="width: <%= course.student_progress(current_user) %>%"></div>
+                </div>
+              <% end %>
+
+              <div class="flex items-center justify-between text-sm">
+                <span class="text-gray-600">Enrolled Students</span>
+                <span class="font-medium text-[hsl(0_83%_56.1%)]"><%= course.enrollments_count %></span>
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="mt-6 flex items-center justify-between">
+              <% if current_user.student? %>
+                <% if course.enrolled?(current_user) %>
+                  <%= link_to "View Course", course_path(course), class: "btn-primary" %>
+                <% else %>
+                  <%= button_to "Enroll Now", enroll_course_path(course), 
+                              class: "btn-primary", method: :post %>
+                <% end %>
+              <% else %>
+                <%= link_to "Manage", edit_course_path(course), class: "btn-secondary" %>
+              <% end %>
+              
+              <span class="text-sm px-3 py-1 rounded-full <%= course.status_class %>">
+                <%= course.status.humanize %>
+              </span>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Empty State -->
+    <% if @courses.empty? %>
+      <div class="text-center py-12">
+        <div class="mb-4 text-[hsl(0_83%_56.1%)] text-6xl">
+          <i class="fas fa-book-open"></i>
+        </div>
+        <h3 class="text-xl font-semibold text-gray-900 mb-2">No courses found</h3>
+        <p class="text-gray-600 max-w-md mx-auto">Start by creating new courses if you're an administrator</p>
+      </div>
+    <% end %>
+  </div>
 </div>
+
