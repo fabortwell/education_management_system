@@ -1,1 +1,32 @@
-<h1>Announcements are here </h1>
+<section id="announcements" class="dashboard-section hidden animate-fade-in">
+  <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200/60">
+    <div class="flex justify-between items-center mb-6">
+      <div>
+        <h2 class="text-2xl font-bold text-gray-900 tracking-tight">Latest Announcements</h2>
+        <p class="mt-1 text-gray-600">Important updates from your institution</p>
+      </div>
+      <div class="w-10 h-10 bg-[hsl(0_83%_56%)]/10 rounded-lg flex items-center justify-center">
+        <i class="fas fa-bullhorn text-[hsl(0_83%_56%)]"></i>
+      </div>
+    </div>
+
+    <div class="space-y-4">
+      <% Announcement.all.each do |announcement| %>
+        <div class="p-4 border border-gray-200/60 rounded-lg hover:border-[hsl(0_83%_56%)]/30 transition-all duration-300">
+          <div class="flex items-start justify-between">
+            <div>
+              <h3 class="font-semibold text-[hsl(0_83%_56%)]"><%= announcement.title %></h3>
+              <p class="text-gray-600 text-sm mt-1.5"><%= announcement.content %></p>
+            </div>
+            <span class="text-xs text-gray-500 shrink-0"><%= time_ago_in_words(announcement.created_at) %> ago</span>
+          </div>
+          <% if announcement.urgent? %>
+            <div class="mt-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+              <i class="fas fa-exclamation-circle mr-1.5"></i> Urgent
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</section>

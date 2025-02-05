@@ -1,9 +1,12 @@
 class DashboardsController < ApplicationController
   before_action :authenticate_user!
-
+  def student
+    authorize :dashboard, :student?
+    @announcements = Announcement.all
+  end
   def show
     if current_user.super_admin?
-      redirect_to admin_dashboard_path
+      redirect_to super_admin_dashboard_path
     else
       redirect_to student_dashboard_path
     end
@@ -11,11 +14,9 @@ class DashboardsController < ApplicationController
 
   def admin
     authorize :dashboard, :super_admin?
-    # Admin-specific data fetching
   end
 
   def student
     authorize :dashboard, :student?
-    # Student-specific data fetching
   end
 end

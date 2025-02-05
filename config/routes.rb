@@ -1,27 +1,20 @@
 Rails.application.routes.draw do
-  get "courses/index"
-  devise_for :users, path: "", path_names: {
-    sign_in: "login",
-    sign_out: "logout",
-    registration: "signup"
+  devise_for :users, controllers: {
+    sessions: "users/sessions"
   }
+  # Define the home page for unauthenticated users
+  root to: "pages#home", as: :unauthenticated_root
 
-  root to: "dashboards#show", as: :authenticated_root
-  # Define specific routes for admin and student dashboards
-  get "admin_dashboard", to: "dashboards#admin", as: "admin_dashboard"
-  get "student_dashboard", to: "dashboards#student", as: "student_dashboard"
-
-  unauthenticated do
-    root to: "pages#home"
+  # Define routes for authenticated users
+  authenticate :user do
+    root to: "dashboards#show", as: :authenticated_root
+    get "admin_dashboard", to: "dashboards#admin", as: "admin_dashboard"
+    get "student_dashboard", to: "dashboards#student", as: "student_dashboard"
+    resource :dashboard, only: [ :show ]
   end
 
-  resource :dashboard, only: [ :show ]
-
-
-
-
+  # Other resources
   resources :courses, only: [ :index ]
-  resource :dashboard, only: [ :show ]
   resources :users, only: [ :index, :edit, :update, :destroy ]
   resources :announcements
   resources :financial_statements
